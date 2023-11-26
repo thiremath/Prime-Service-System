@@ -1,28 +1,28 @@
 package primeService.client;
-  
+
+import primeService.socket.PrimeClientSocket;
+
 public class ClientMenu {
  
-    public ClientDriver clientDriver ;
-    // public String choice ;
+    public PrimeClientSocket clientSocket ;
  
-    public ClientMenu(ClientDriver clientDriverIn){
-        clientDriver = clientDriverIn ;
-        // choice = null ;
+    public ClientMenu(PrimeClientSocket clientSocketIn){
+        clientSocket = clientSocketIn ;
     }
  
     public void processClientMenu(String choice){
             switch(choice){
                 case "1":
-                    clientDriver.setClientName() ;
+                    clientSocket.setClientName() ;
                     break ;
                 case "2":
-                    clientDriver.setClientNumber() ;
+                    clientSocket.setClientNumber() ;
                     break ;
                 case "3":
-                    clientDriver.getServerResponse() ;
+                    clientSocket.getServerResponse() ;
                     break ;
                 case "4":
-                    clientDriver.quit() ;
+                    clientSocket.quit() ;
                     break ;
                 default:
                     System.err.println("Invalid choice.");
@@ -36,5 +36,6 @@ public class ClientMenu {
         System.out.println("[3] What is the server response?");
         System.out.println("[4] Quit");
     }
+
 }
  
