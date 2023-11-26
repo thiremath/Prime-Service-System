@@ -1,24 +1,14 @@
 package primeService.driver;
 
-
+import primeService.client.ClientDriver;
 
 /**
  * @author placeholder
  *
  */
 public class PrimeDriver {
-	public static void main(String[] args) {
-         
-		/*
-		 * As the build.xml specifies the arguments as argX, in case the
-		 * argument value is not given java takes the default value specified in
-		 * build.xml. To avoid that, below condition is used
-		 */
-
-	    System.out.println("Hello");
-	   
-		
-	
-
-	}
+    public static void main(String args[])
+    {
+        ClientDriver client = new ClientDriver("127.0.0.1", 5000);
+    }
 }

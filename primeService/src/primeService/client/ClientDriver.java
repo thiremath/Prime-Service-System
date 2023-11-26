@@ -3,17 +3,26 @@ package primeService.client;
 // A Java program for a Client
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
  
  
 public class ClientDriver {
     // initialize socket and input output streams
     private Socket socket = null;
-    private DataInputStream input = null;
+    private BufferedReader input = null;
     private DataOutputStream out = null;
- 
+    public String choice ;
+    public String name ;
+    public String number ;
+    Scanner scanner ;
+    ClientMenu clientMenu ;
+
     // constructor to put ip address and port
     public ClientDriver(String ipAddress, int port){
-        ClientMenu clientMenu = new ClientMenu(this) ;
+        clientMenu = new ClientMenu(this) ;
+        choice = "0" ;
+        name = null ;
+        number = null ;
         // establish a connection
         try {
             socket = new Socket(ipAddress, port);
@@ -21,12 +30,18 @@ public class ClientDriver {
  
             // takes input from terminal
             // input = new DataInputStream(System.in);
- 
+            input = new BufferedReader(new InputStreamReader(System.in)); 
+
             // // sends output to the socket
-            // out = new DataOutputStream(
-            //  socket.getOutputStream());
- 
-            clientMenu.processClientMenu();
+            out = new DataOutputStream(socket.getOutputStream());
+
+            scanner = new Scanner(System.in);
+
+            while(!choice.equals("4")){
+                clientMenu.displayClientMenu();
+                choice = scanner.nextLine() ;
+                clientMenu.processClientMenu(choice);
+            }
  
         }
         catch (UnknownHostException u) {
@@ -37,47 +52,41 @@ public class ClientDriver {
             System.out.println(i);
             return;
         }
- 
-        // string to read message from input
-        String line = "";
- 
-        // keep reading until "Over" is input
-        while (!line.equals("Over")) {
-            try {
-                line = input.readLine();
-                out.writeUTF(line);
-            }
-            catch (IOException i) {
-                System.out.println(i);
-            }
-        }
- 
-        // close the connection
-        try {
-            input.close();
-            out.close();
-            socket.close();
-        }
-        catch (IOException i) {
-            System.out.println(i);
-        }
- 
+  
     }
  
     public void setClientName(){
-            
+        try {
+            name = input.readLine() ;
+            System.out.println(name+" Name!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
  
     public void setClientNumber(){
- 
+        try {
+            number = input.readLine() ;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
  
     public void getServerResponse(){
-        out.writeUTF("");
+        String pair = name+" "+number ;
+        try {
+            out.writeUTF(pair);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
  
     public void quit(){
         try {
+            System.out.println("loki");
             input.close();
             out.close();
             socket.close();

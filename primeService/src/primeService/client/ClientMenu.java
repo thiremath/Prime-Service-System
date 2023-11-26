@@ -1,7 +1,5 @@
 package primeService.client;
- 
-import java.util.Scanner;
- 
+  
 public class ClientMenu {
  
     public ClientDriver clientDriver ;
@@ -13,8 +11,6 @@ public class ClientMenu {
     }
  
     public void processClientMenu(String choice){
-        Scanner scanner = new Scanner(System.in);
-            displayClientMenu();
             switch(choice){
                 case "1":
                     clientDriver.setClientName() ;
@@ -32,8 +28,6 @@ public class ClientMenu {
                     System.err.println("Invalid choice.");
                     System.exit(0) ;
             }
- 
- 
     }
  
     public void displayClientMenu(){
