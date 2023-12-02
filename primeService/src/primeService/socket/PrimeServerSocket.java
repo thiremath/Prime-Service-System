@@ -18,18 +18,6 @@ public class PrimeServerSocket extends Thread {
 
         System.out.println("Server started");
         System.out.println("Waiting for a client ...");
-
-        try {
-            socket = server.accept();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-        System.out.println("Client accepted");
-
-        serverWorker = new PrimeServerWorker(socket) ;
-
     }
 
     public void quit(){
@@ -37,13 +25,26 @@ public class PrimeServerSocket extends Thread {
     }
 
     public void run(){
-        try {
-            serverWorker.start();
+        while (true) {
+            
+            try {
+                socket = server.accept();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
+            System.out.println("Client accepted");
+            serverWorker = new PrimeServerWorker(socket) ;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+
+            try {
+                serverWorker.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
+
+        }    
 
     }
 

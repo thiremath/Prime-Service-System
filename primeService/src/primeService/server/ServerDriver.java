@@ -20,7 +20,7 @@ public class ServerDriver{
     }
 
     public void startServer(int port){
-        serverSocket.start() ;
+        serverSocket.start() ; // Thread method.
         while(true){
             serverMenu.displayServerMenu();
             choice = scanner.nextLine() ;

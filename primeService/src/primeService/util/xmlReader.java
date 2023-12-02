@@ -9,16 +9,19 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 public class xmlReader {
-    public static void read(String s){
+    pair p = null ;
+    public pair read(String s){
         try {
+            p = new pair() ;
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputSource src = new InputSource();
             src.setCharacterStream(new StringReader(s));
             Document doc = builder.parse(src);
-            pair.clientName = doc.getElementsByTagName("clientName").item(0).getTextContent();
-            pair.isPrime = doc.getElementsByTagName("isPrime").item(0).getTextContent();
+            p.clientName = doc.getElementsByTagName("clientName").item(0).getTextContent();
+            p.isPrime = doc.getElementsByTagName("isPrime").item(0).getTextContent();
         } catch (Exception e) {
             e.printStackTrace() ;
         }
+        return p ;
     }
 }

@@ -7,8 +7,14 @@ import java.util.Scanner;
  
 public class PrimeClientWorker {
     private Socket socket = null;
-    private DataOutputStream out = null;
-    private DataInputStream in = null;
+    // private DataOutputStream out = null;
+    // private DataInputStream in = null;
+    private InputStreamReader inputStreamReader ;
+    private OutputStreamWriter outputStreamWriter ;
+
+    private BufferedReader bufferedReader ;
+    private BufferedWriter bufferedWriter ;
+
     public String choice = "0";
     public String name = null;
     public String number = null;
@@ -21,8 +27,15 @@ public class PrimeClientWorker {
     public void run(){
         try {
             scanner = new Scanner(System.in); 
-            in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            out = new DataOutputStream(socket.getOutputStream());
+
+            inputStreamReader = new InputStreamReader(socket.getInputStream()) ;
+            outputStreamWriter = new OutputStreamWriter(socket.getOutputStream()) ;
+
+            bufferedReader = new BufferedReader(inputStreamReader) ;
+            bufferedWriter = new BufferedWriter(outputStreamWriter) ;
+            // in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            // out = new DataOutputStream(socket.getOutputStream());
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -58,10 +71,15 @@ public class PrimeClientWorker {
     public void getServerResponse(){
         String inputLine = "<primeQuery><clientName>"+name+"</clientName><isPrime>"+number+"</isPrime></primeQuery>" ;        
         try {
-            out.writeUTF(inputLine);
-            String line=in.readUTF();
-            System.out.println(line);
-        } catch (IOException e) {
+            bufferedWriter.write(inputLine);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+            String line= bufferedReader.readLine();
+            System.out.println("A Message from Server:\n"+line);
+        } catch (Exception e) {
+            quit();
+            System.err.println(e);
             e.printStackTrace();
             System.exit(0);
         }
@@ -69,8 +87,10 @@ public class PrimeClientWorker {
  
     public void quit(){
         try {
-            scanner.close();
-            out.close();
+            bufferedReader.close();
+            bufferedWriter.close();
+            inputStreamReader.close();
+            outputStreamWriter.close();
             socket.close();
         }
         catch (IOException i) {
