@@ -5,10 +5,9 @@ import java.net.*;
 import java.util.Scanner;
  
  
-public class PrimeClientWorker {
+public class PrimeClientWorker extends Thread {
     private Socket socket = null;
-    // private DataOutputStream out = null;
-    // private DataInputStream in = null;
+
     private InputStreamReader inputStreamReader ;
     private OutputStreamWriter outputStreamWriter ;
 
@@ -18,35 +17,56 @@ public class PrimeClientWorker {
     public String choice = "0";
     public String name = null;
     public String number = null;
-    Scanner scanner ;
+    
+    Scanner scanner = new Scanner(System.in);
 
     public PrimeClientWorker(Socket socketIn){
         socket = socketIn ;  
-    }
 
-    public void run(){
         try {
-            scanner = new Scanner(System.in); 
-
             inputStreamReader = new InputStreamReader(socket.getInputStream()) ;
             outputStreamWriter = new OutputStreamWriter(socket.getOutputStream()) ;
 
             bufferedReader = new BufferedReader(inputStreamReader) ;
             bufferedWriter = new BufferedWriter(outputStreamWriter) ;
-            // in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            // out = new DataOutputStream(socket.getOutputStream());
+        } catch (Exception e) {
+            System.err.println("Exception- "+e);
+            e.printStackTrace();
+        }
+    }
 
+    public void run(){
+        try {
+            while(true){
+                if(socket != null){
+                    String ServerMsg = bufferedReader.readLine() ;
+                    if(ServerMsg == null || ServerMsg.equals("Server closed")){
+                        System.out.println("----------Server Closed----------");
+                        quit();
+                    }
+                    printServerMessage(ServerMsg) ;
+                }
+            }
         }
         catch (Exception e) {
+            System.out.println("Server Closed.");
             e.printStackTrace();
             System.exit(0);
             return;
         }
     }
+
+    public void printServerMessage(String ServerMsgIn){
+        System.out.println("A Message from Server:\n"+ServerMsgIn);
+    }
  
     public void setClientName(){
         try {
             name = scanner.nextLine() ;
+            if(name.equals("")){
+                System.out.println("Please enter a Client Name.");
+                return ;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -56,6 +76,10 @@ public class PrimeClientWorker {
     public void setClientNumber(){
         try {
             String tempNumber = scanner.nextLine() ;
+            if(tempNumber.equals("")){
+                System.out.println("Please enter a number.");
+                return ;
+            }
             if(Integer.parseInt(tempNumber) > 3){
                 number = tempNumber ;
             }
@@ -69,14 +93,15 @@ public class PrimeClientWorker {
     }
  
     public void getServerResponse(){
-        String inputLine = "<primeQuery><clientName>"+name+"</clientName><isPrime>"+number+"</isPrime></primeQuery>" ;        
         try {
+            if(name == null || number == null){
+                System.out.println("Please enter a value.");
+                return ;
+            }
+            String inputLine = "<primeQuery><clientName>"+name+"</clientName><isPrime>"+number+"</isPrime></primeQuery>" ;        
             bufferedWriter.write(inputLine);
             bufferedWriter.newLine();
             bufferedWriter.flush();
-
-            String line= bufferedReader.readLine();
-            System.out.println("A Message from Server:\n"+line);
         } catch (Exception e) {
             quit();
             System.err.println(e);
@@ -87,14 +112,14 @@ public class PrimeClientWorker {
  
     public void quit(){
         try {
-            bufferedReader.close();
-            bufferedWriter.close();
-            inputStreamReader.close();
-            outputStreamWriter.close();
+            System.out.println("---------- Client closed ----------");
             socket.close();
+            System.exit(0);
         }
-        catch (IOException i) {
-            System.out.println(i);
+        catch (Exception e) {
+            System.err.println(e);
+            e.printStackTrace();
+            System.exit(0);
         }
     }
  

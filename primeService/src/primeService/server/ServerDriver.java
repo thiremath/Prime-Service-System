@@ -26,7 +26,6 @@ public class ServerDriver{
             choice = scanner.nextLine() ;
             if(choice.equals("3")){
                 scanner.close();
-                System.exit(port);
             }
             serverMenu.processServerMenu(choice);
         }

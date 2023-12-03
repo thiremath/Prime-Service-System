@@ -34,6 +34,6 @@ public class PrimeClientSocket {
     }
 
     public void run(){
-        clientWorker.run() ;
+        clientWorker.start() ;
     }
 }

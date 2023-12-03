@@ -21,7 +21,6 @@ public class ServerMenu {
                     displayAllClientQueries() ;
                     break ;
                 case "3":
-                    System.out.println("Quitting Server.");
                     serverSocket.quit();
                     break ;
                 default:
@@ -31,11 +30,11 @@ public class ServerMenu {
     }
 
     public void displayClientQuery(){
-
+        serverSocket.printClientQuery();
     }
 
     public void displayAllClientQueries(){
-
+        AllPrimeQueries.printAllQueries();
     }
  
     public void displayServerMenu(){

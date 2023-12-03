@@ -27,7 +27,6 @@ public class ClientDriver {
             choice = scanner.nextLine() ;
             if(choice.equals("4")){
                 scanner.close();
-                System.exit(port);
             }
             clientMenu.processClientMenu(choice);
         }
