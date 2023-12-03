@@ -3,6 +3,9 @@ package primeService.socket;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+
+import primeService.util.Debug;
+import primeService.util.Debug.DebugLevel;
  
  
 public class PrimeClientWorker extends Thread {
@@ -13,6 +16,8 @@ public class PrimeClientWorker extends Thread {
 
     private BufferedReader bufferedReader ;
     private BufferedWriter bufferedWriter ;
+
+    private DebugLevel debugLevel = DebugLevel.CLIENTWORKER ;
 
     public String choice = "0";
     public String name = null;
@@ -30,7 +35,7 @@ public class PrimeClientWorker extends Thread {
             bufferedReader = new BufferedReader(inputStreamReader) ;
             bufferedWriter = new BufferedWriter(outputStreamWriter) ;
         } catch (Exception e) {
-            System.err.println("Exception- "+e);
+            Debug.writeError(e, "Exception- ", debugLevel);
             e.printStackTrace();
         }
     }
@@ -41,7 +46,7 @@ public class PrimeClientWorker extends Thread {
                 if(socket != null){
                     String ServerMsg = bufferedReader.readLine() ;
                     if(ServerMsg == null || ServerMsg.equals("Server closed")){
-                        System.out.println("----------Server Closed----------");
+                        Debug.writeMessage("----------Server Closed----------",debugLevel);
                         quit();
                     }
                     printServerMessage(ServerMsg) ;
@@ -49,7 +54,7 @@ public class PrimeClientWorker extends Thread {
             }
         }
         catch (Exception e) {
-            System.out.println("Server Closed.");
+            Debug.writeMessage("Server Closed.",debugLevel);
             e.printStackTrace();
             System.exit(0);
             return;
@@ -57,14 +62,14 @@ public class PrimeClientWorker extends Thread {
     }
 
     public void printServerMessage(String ServerMsgIn){
-        System.out.println("A Message from Server:\n"+ServerMsgIn);
+        Debug.writeMessage("A Message from Server:\n"+ServerMsgIn, debugLevel);
     }
  
     public void setClientName(){
         try {
             name = scanner.nextLine() ;
             if(name.equals("")){
-                System.out.println("Please enter a Client Name.");
+                Debug.writeMessage("Please enter a Client Name.",debugLevel);
                 return ;
             }
         } catch (Exception e) {
@@ -77,14 +82,14 @@ public class PrimeClientWorker extends Thread {
         try {
             String tempNumber = scanner.nextLine() ;
             if(tempNumber.equals("")){
-                System.out.println("Please enter a number.");
+                Debug.writeMessage("Please enter a number.",debugLevel);
                 return ;
             }
             if(Integer.parseInt(tempNumber) > 3){
                 number = tempNumber ;
             }
             else{
-                System.err.println("Invalid Input.");
+                Debug.writeError(null, "Invalid Input.",debugLevel);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,7 +100,7 @@ public class PrimeClientWorker extends Thread {
     public void getServerResponse(){
         try {
             if(name == null || number == null){
-                System.out.println("Please enter a value.");
+                Debug.writeMessage("Please enter a value.",debugLevel);
                 return ;
             }
             String inputLine = "<primeQuery><clientName>"+name+"</clientName><isPrime>"+number+"</isPrime></primeQuery>" ;        
@@ -104,7 +109,7 @@ public class PrimeClientWorker extends Thread {
             bufferedWriter.flush();
         } catch (Exception e) {
             quit();
-            System.err.println(e);
+            Debug.writeError(e,null,debugLevel);
             e.printStackTrace();
             System.exit(0);
         }
@@ -112,12 +117,12 @@ public class PrimeClientWorker extends Thread {
  
     public void quit(){
         try {
-            System.out.println("---------- Client closed ----------");
+            Debug.writeMessage("---------- Client closed ----------",debugLevel);
             socket.close();
             System.exit(0);
         }
         catch (Exception e) {
-            System.err.println(e);
+            Debug.writeError(e,null,debugLevel);
             e.printStackTrace();
             System.exit(0);
         }

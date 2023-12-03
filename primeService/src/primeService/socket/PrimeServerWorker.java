@@ -17,6 +17,8 @@ import primeService.server.ServerMenu;
 import primeService.util.CheckPrime;
 import primeService.util.pair;
 import primeService.util.xmlReader;
+import primeService.util.Debug;
+import primeService.util.Debug.DebugLevel;
 
 public class PrimeServerWorker extends Thread{
 
@@ -25,6 +27,8 @@ public class PrimeServerWorker extends Thread{
     private InputStreamReader inputStreamReader ;
     private OutputStreamWriter outputStreamWriter ;
     private pair custom_Pair ;
+
+    private DebugLevel debugLevel = DebugLevel.SERVERWORKER ;
 
     private xmlReader xReader = null ;
     private CheckPrime xPrime = null ;
@@ -47,7 +51,7 @@ public class PrimeServerWorker extends Thread{
         }
         catch(Exception e){
             e.printStackTrace();
-            System.out.println(e);
+            Debug.writeError(e,null,debugLevel);
         }
     }
 
@@ -80,12 +84,12 @@ public class PrimeServerWorker extends Thread{
 
     public void printClientQuery(){
         if(clientQuery != null){
-            System.out.println(clientQuery);
+            Debug.writeMessage(clientQuery, debugLevel);
         }
     }
 
     public void quit(){
-            System.out.println("----------Closing connection----------");
+            Debug.writeMessage("----------Closing connection----------",debugLevel);
             try {
                 bufferedWriter.write("Server closed");
                 bufferedWriter.newLine();
@@ -97,11 +101,11 @@ public class PrimeServerWorker extends Thread{
                 outputStreamWriter.close();
                 socket.close();
 
-                System.out.println("Connection closed.");
+                Debug.writeMessage("Connection closed.",debugLevel);
                 System.exit(0);
             }
             catch (Exception e) {
-                System.out.println(e);
+                Debug.writeError(e,null,debugLevel);
                 e.printStackTrace();
             }
     }
