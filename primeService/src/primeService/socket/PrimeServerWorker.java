@@ -28,7 +28,7 @@ public class PrimeServerWorker extends Thread{
     private OutputStreamWriter outputStreamWriter ;
     private pair custom_Pair ;
 
-    private DebugLevel debugLevel = DebugLevel.SERVERWORKER ;
+    private Debug debugObject = Debug.getInstance() ;
 
     private xmlReader xReader = null ;
     private CheckPrime xPrime = null ;
@@ -51,7 +51,7 @@ public class PrimeServerWorker extends Thread{
         }
         catch(Exception e){
             e.printStackTrace();
-            Debug.writeError(e,null,debugLevel);
+            Debug.writeError(e,null,DebugLevel.SERVERWORKER);
         }
     }
 
@@ -72,6 +72,8 @@ public class PrimeServerWorker extends Thread{
                 String intValue = custom_Pair.isPrime ;
                 String isPrime = xPrime.isPrime(Number) ;
                 String outputQuery = "<primeQueryResponse><intValue>"+intValue+"</intValue><isPrime>"+isPrime+"</isPrime></primeQueryResponse>" ;
+                Debug.writeMessage(intValue,DebugLevel.SERVERWORKER);
+                Debug.writeMessage(isPrime,DebugLevel.SERVERWORKER);
                 bufferedWriter.write(outputQuery);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
@@ -83,30 +85,35 @@ public class PrimeServerWorker extends Thread{
     }
 
     public void printClientQuery(){
-        if(clientQuery != null){
-            Debug.writeMessage(clientQuery, debugLevel);
+        if(AllPrimeQueries.allQueries.size() != 0){
+            System.out.println(AllPrimeQueries.allQueries.get(AllPrimeQueries.allQueries.size()-1));
         }
     }
 
     public void quit(){
-            Debug.writeMessage("----------Closing connection----------",debugLevel);
+            System.out.println("----------Closing connection----------");
             try {
                 bufferedWriter.write("Server closed");
                 bufferedWriter.newLine();
-                bufferedWriter.flush();                
-
-                bufferedReader.close();
-                bufferedWriter.close();
-                inputStreamReader.close();
-                outputStreamWriter.close();
+                bufferedWriter.flush();     
                 socket.close();
-
-                Debug.writeMessage("Connection closed.",debugLevel);
+                System.out.println("Connection closed.");
                 System.exit(0);
             }
-            catch (Exception e) {
-                Debug.writeError(e,null,debugLevel);
+            catch (IOException e) {
+                Debug.writeError(e,null,DebugLevel.SERVERWORKER);
                 e.printStackTrace();
+            }
+            finally{
+                try {
+                    inputStreamReader.close();
+                    outputStreamWriter.close();
+                    bufferedReader.close();
+                    bufferedWriter.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    System.exit(0);
+                }
             }
     }
    

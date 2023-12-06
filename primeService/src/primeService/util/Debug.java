@@ -4,9 +4,19 @@ import primeService.util.Debug.DebugLevel;
 
 public class Debug {
 
+    private static Debug obj ;
     public static enum DebugLevel { CLIENTWORKER, SERVERWORKER, NONE };
-
     private static DebugLevel debugLevel;
+
+    private Debug(){}
+
+    public static Debug getInstance(){
+        if(obj == null){
+            obj = new Debug() ;
+        }
+        return obj ;
+    }
+
 
     public static void setDebugValue (int levelIn) {
         switch (levelIn) {
