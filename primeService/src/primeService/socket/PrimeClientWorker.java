@@ -54,7 +54,6 @@ public class PrimeClientWorker extends Thread {
             }
         }
         catch (Exception e) {
-            System.out.println("Server Closed.");
             e.printStackTrace();
             System.exit(0);
             return;
