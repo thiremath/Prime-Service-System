@@ -36,7 +36,7 @@ public class PrimeClientWorker extends Thread {
             bufferedWriter = new BufferedWriter(outputStreamWriter) ;
         } catch (Exception e) {
             Debug.writeError(e, "Exception- ", DebugLevel.CLIENTWORKER);
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
@@ -54,7 +54,7 @@ public class PrimeClientWorker extends Thread {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
             return;
         }
@@ -72,7 +72,7 @@ public class PrimeClientWorker extends Thread {
                 return ;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
         }
     }
@@ -91,7 +91,7 @@ public class PrimeClientWorker extends Thread {
                 Debug.writeError(null, "Invalid Input.",DebugLevel.CLIENTWORKER);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
         }
     }
@@ -111,7 +111,7 @@ public class PrimeClientWorker extends Thread {
         } catch (Exception e) {
             quit();
             Debug.writeError(e,null,DebugLevel.CLIENTWORKER);
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
         }
     }
@@ -124,7 +124,7 @@ public class PrimeClientWorker extends Thread {
         }
         catch (Exception e) {
             Debug.writeError(e,null,DebugLevel.CLIENTWORKER);
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
         }
     }

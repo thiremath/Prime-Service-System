@@ -50,7 +50,7 @@ public class PrimeServerWorker extends Thread{
             bufferedWriter = new BufferedWriter(outputStreamWriter) ;
         }
         catch(Exception e){
-            e.printStackTrace();
+            // e.printStackTrace();
             Debug.writeError(e,null,DebugLevel.SERVERWORKER);
         }
     }
@@ -78,7 +78,7 @@ public class PrimeServerWorker extends Thread{
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 System.exit(0) ;
             }
         }
@@ -101,8 +101,8 @@ public class PrimeServerWorker extends Thread{
                 System.exit(0);
             }
             catch (IOException e) {
-                Debug.writeError(e,null,DebugLevel.SERVERWORKER);
-                e.printStackTrace();
+                // Debug.writeError(e,null,DebugLevel.SERVERWORKER);
+                // e.printStackTrace();
             }
             finally{
                 try {

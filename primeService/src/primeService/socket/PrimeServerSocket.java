@@ -12,7 +12,7 @@ public class PrimeServerSocket extends Thread {
         try {
             server = new ServerSocket(port) ;
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
         }
         System.out.println("Server started");
@@ -38,7 +38,7 @@ public class PrimeServerSocket extends Thread {
                 serverWorker = new PrimeServerWorker(socket) ;
                 serverWorker.start();
             } catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 System.exit(0);
             }
         }    

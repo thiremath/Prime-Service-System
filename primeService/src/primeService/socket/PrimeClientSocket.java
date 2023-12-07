@@ -11,7 +11,7 @@ public class PrimeClientSocket {
             socket = new Socket(ipAddress, port);
             System.out.println("Connected");
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             System.exit(0);
         }
         clientWorker = new PrimeClientWorker(socket) ;

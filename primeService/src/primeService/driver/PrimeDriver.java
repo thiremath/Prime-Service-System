@@ -29,7 +29,7 @@ public class PrimeDriver {
 			}
 		} catch (Exception e) {
 			System.err.println("Exception- "+e);
-			e.printStackTrace();
+			// e.printStackTrace();
 			System.exit(0);
 		}
     }

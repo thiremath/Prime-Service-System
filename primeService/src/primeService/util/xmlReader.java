@@ -20,7 +20,7 @@ public class xmlReader {
             p.clientName = doc.getElementsByTagName("clientName").item(0).getTextContent();
             p.isPrime = doc.getElementsByTagName("isPrime").item(0).getTextContent();
         } catch (Exception e) {
-            e.printStackTrace() ;
+            // e.printStackTrace() ;
         }
         return p ;
     }
